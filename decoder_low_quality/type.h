@@ -1,11 +1,11 @@
 #pragma once
 #include <cstdint>
 
-//const (todo remove define)
-#define XS_MARKER_PIH 0xff12
-#define XS_MARKER_NBYTES 2
-#define XS_MARKER_SOC 0xff10
-#define XS_MARKER_CAP 0xff50
+
+constexpr uint16_t XS_MARKER_PIH = 0xff12;
+constexpr uint16_t XS_MARKER_NBYTES = 2;
+constexpr uint16_t XS_MARKER_SOC = 0xff10;
+constexpr uint16_t XS_MARKER_CAP = 0xff50;
 
 struct PictureHeader
 {
@@ -16,8 +16,6 @@ struct PictureHeader
     uint16_t frameHeight;
     uint16_t precinctWidth;
     uint16_t  slicehHeight;
-    /*precinct_height = (1 << conf->ndecomp_v);
-    conf->slice_height *= precinct_height;*/
     uint8_t componentsNumber;
     uint8_t codeGroupSize;
     uint8_t significanceGroupSize;

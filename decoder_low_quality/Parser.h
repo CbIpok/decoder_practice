@@ -20,7 +20,7 @@ public:
 
     ~BlockOfMemory();
 
-    uint8_t* data;
+    std::shared_ptr<uint8_t> data;
     size_t len;
     Bitstream bitstream;
 };

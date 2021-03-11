@@ -59,7 +59,7 @@ void writeBlockOfMemoryToFile(const BlockOfMemory& blockOfMemory, const std::str
     {
         std::ofstream out(fileName, std::ios::binary);
         //out.write((char*)blockOfMemory.first, blockOfMemory.second);
-        out.write((char*)blockOfMemory.data, blockOfMemory.len);
+        out.write((char*)blockOfMemory.data.get(), blockOfMemory.len);
     }
     catch (const std::exception& e)
     {
@@ -89,7 +89,7 @@ BlockOfMemory::BlockOfMemory(BlockOfMemory&& blockOfMemory) noexcept :
 
 BlockOfMemory::~BlockOfMemory()
 {
-    delete[] data; //todo make smart pointer
+     
 }
 
 
@@ -97,8 +97,8 @@ BlockOfMemory::~BlockOfMemory()
 PictureHeader DetailParser::parseHeader(BlockOfMemory& blockOfMemory)
 {
 	PictureHeader pictureHeader;
-	int lpih = 26; //todo rename
-	int precinctHeight; //todo rename
+	int LenghtPih = 26; 
+	int precinctHeight; 
 	uint16_t marker;
 	uint32_t val32 = 0;
 	uint16_t val16 = 0;
@@ -123,7 +123,7 @@ PictureHeader DetailParser::parseHeader(BlockOfMemory& blockOfMemory)
 		readFromBitsreamAndSwap(blockOfMemory.bitstream, marker, XS_MARKER_NBYTES);
 		assert(marker == XS_MARKER_PIH);
 		readFromBitsreamAndSwap(blockOfMemory.bitstream, val16, sizeof(val16));
-		assert(val16 == lpih);
+		assert(val16 == LenghtPih);
 		readFromBitsreamAndSwap(blockOfMemory.bitstream, val32, sizeof(val32));
 		pictureHeader.codestreamSize = val32;
 
