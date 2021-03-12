@@ -29,7 +29,5 @@ int main()
 
     auto slices = parser.getSlices();
 
-   
-
     return 0;
 }

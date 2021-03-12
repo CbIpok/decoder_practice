@@ -14,19 +14,15 @@ BlockParser::BlockParser(Bitstream&& bitstream) :
 
 }
 
-BlockParser::BlockParser(uint8_t* bitstream, size_t size)
+BlockParser::BlockParser(uint8_t* rawStream, size_t size)
+	: bitstream(rawStream, size)
 {
-    this->bitstream.buf = bitstream;
-    this->bitstream.cur = bitstream;
-    this->bitstream.len_readed = 0;
-    this->bitstream.size = size;
 
 }
 
-
 BlockOfMemory BlockParser::getHeader()
 {
-    uint8_t* buf = new uint8_t[HEADER_SIZE];
+    auto* buf = new uint8_t[HEADER_SIZE];
 
     readFromBitsream(bitstream, buf, HEADER_SIZE);
     return { buf, HEADER_SIZE };
@@ -44,7 +40,6 @@ std::vector<BlockOfMemory> BlockParser::getSlices()
 	return slices;
 }
 
-
 BlockOfMemory BlockParser::getSlice()
 {
 	uint8_t* data{nullptr};
@@ -54,9 +49,6 @@ BlockOfMemory BlockParser::getSlice()
 	readFromBitsream(bitstream, data, sliceSize);
 	return BlockOfMemory(data, sliceSize);
 }
-
-
-
 
 size_t BlockParser::getSliceSize(Bitstream& lbitsream)
 {
@@ -86,16 +78,12 @@ size_t BlockParser::getSliceSize(Bitstream& lbitsream)
 	return size;
 }
 
-
-
-
 void writeBlockOfMemoryToFile(const BlockOfMemory& blockOfMemory, const std::string& fileName)
 {
 
     try 
     {
         std::ofstream out(fileName, std::ios::binary);
-        //out.write((char*)blockOfMemory.first, blockOfMemory.second);
         out.write((char*)blockOfMemory.data.get(), blockOfMemory.len);
     }
     catch (const std::exception& e)
@@ -103,7 +91,6 @@ void writeBlockOfMemoryToFile(const BlockOfMemory& blockOfMemory, const std::str
         std::cout << "cannot write to file";
     }
 }
-
 
 BlockOfMemory::BlockOfMemory(uint8_t* data, size_t size) :
     data(data),
@@ -116,20 +103,12 @@ BlockOfMemory::BlockOfMemory(uint8_t* data, size_t size) :
     bitstream.size = size;
 }
 
-
 BlockOfMemory::BlockOfMemory(BlockOfMemory&& blockOfMemory) noexcept :
     data(std::move(blockOfMemory.data)),
     len(blockOfMemory.len)
 {
     blockOfMemory.data = nullptr;
 }
-
-BlockOfMemory::~BlockOfMemory()
-{
-     
-}
-
-
 
 PictureHeader DetailParser::parseHeader(BlockOfMemory& blockOfMemory)
 {
@@ -234,9 +213,6 @@ PictureHeader DetailParser::parseHeader(BlockOfMemory& blockOfMemory)
 	{
 
 	}
-	
-
-
 	
 	return pictureHeader;
 }

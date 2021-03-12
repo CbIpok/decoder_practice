@@ -6,10 +6,7 @@
 #include "bitstream.h"
 #include "type.h"
 
-
-
-
-class BlockOfMemory // struct with destructure
+class BlockOfMemory final// struct with destructure
 {
 public:
     BlockOfMemory(uint8_t *data,size_t size);
@@ -18,16 +15,14 @@ public:
 
     BlockOfMemory(BlockOfMemory&& blockOfMemory) noexcept;
 
-    ~BlockOfMemory();
+    ~BlockOfMemory() = default;
 
-    std::unique_ptr<uint8_t> data;
-    size_t len;
+    std::unique_ptr<uint8_t[]> data;
+    std::size_t len;
     Bitstream bitstream;
 };
 
-
-
-class BlockParser
+class BlockParser final
 {
 public:
 
@@ -43,8 +38,6 @@ public:
 
     BlockOfMemory gesEos(); //to simply 
 
-    
-    
 private:
     constexpr static size_t HEADER_SIZE = 96;
 
@@ -66,11 +59,7 @@ private:
    
 };
 
-
-
-
-
-class DetailParser
+class DetailParser final
 {
 public:
     DetailParser() = default;
@@ -80,17 +69,7 @@ public:
 
 private:
 
-
-
-    
-
 };
 
-
-
-
-
 //methods
-
-
 void writeBlockOfMemoryToFile(const BlockOfMemory& blockOfMemory, const std::string& fileName);

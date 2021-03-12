@@ -1,7 +1,5 @@
 #pragma once
 #include <cstdint>
-
-
 constexpr uint16_t XS_MARKER_PIH = 0xff12;
 constexpr uint16_t XS_MARKER_NBYTES = 2;
 constexpr uint16_t XS_MARKER_SOC = 0xff10;
