@@ -6,6 +6,8 @@ constexpr uint16_t XS_MARKER_PIH = 0xff12;
 constexpr uint16_t XS_MARKER_NBYTES = 2;
 constexpr uint16_t XS_MARKER_SOC = 0xff10;
 constexpr uint16_t XS_MARKER_CAP = 0xff50;
+constexpr uint16_t XS_MARKER_SLH = 0xff20;
+constexpr uint16_t XS_MARKER_EOC = 0xff11;
 
 struct PictureHeader
 {

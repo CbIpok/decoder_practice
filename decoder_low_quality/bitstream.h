@@ -38,9 +38,21 @@ void readFromBitsream(Bitstream& bitstream, uint8_t* dst, size_t size);
 template <typename T>
 void readFromBitsreamAndSwap(Bitstream& bitstream, T& dst, size_t size);
 
+
 template<typename T>
 inline void readFromBitsreamAndSwap(Bitstream& bitstream, T& dst, size_t size)
 {
     readFromBitsream(bitstream, (uint8_t*)&dst, size);
     dst = swap_endian(dst);
 }
+
+template<typename T>
+inline void peekBitsreamAndSwap(Bitstream& bitstream, T& dst, size_t size)
+{
+    readFromBitsream(bitstream, (uint8_t*)&dst, size);
+    bitstream.len_readed -= size;
+    bitstream.cur -= size;
+    dst = swap_endian(dst);
+}
+
+void bistreamSkip(Bitstream& bitstream, size_t skipLen);

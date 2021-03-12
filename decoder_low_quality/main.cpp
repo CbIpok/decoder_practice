@@ -25,10 +25,11 @@ int main()
 
     DetailParser dparser;
 
-    dparser.parseHeader(block);
+    auto picHeader = dparser.parseHeader(block);
 
-    
+    auto slices = parser.getSlices();
 
+   
 
     return 0;
 }
